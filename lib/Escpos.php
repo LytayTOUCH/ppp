@@ -48,6 +48,7 @@ class Escpos
 			$folder_path = dirname($file_path);
 			$file = date('Y-m-d-H-i-s-').uniqid().'.png';
 			$filename = $folder_path.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$file;
+			chmod($filename, 0777);
 			$imgData = str_replace('data:image/png;base64,', '', $data);
 			$imgData = str_replace(' ', '+', $imgData);
 			$imgData = base64_decode($imgData);
@@ -60,6 +61,7 @@ class Escpos
 				$this->printer->pulse();
 			}
 			$this->printer->close();
+			unlink($filename);
 		} catch (Exception $e) {
 			$this->printer->close();
 			echo '> Error occurred, unable to print image. ', $e->getMessage(), "\n";

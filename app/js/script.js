@@ -1,37 +1,45 @@
 var socket = null;
-try {
-    socket = new WebSocket('ws://127.0.0.1:6441');
-    socket.onopen = function () {
-        var curr = document.getElementsByClassName('status');
-        for (var i = 0; i < curr.length; i++) {
-            curr[i].classList.add('is-success');
-            curr[i].innerHTML = "UP & RUNNING";
-        }
-        // document.getElementById('run_server').style.display = 'none';
-        return;
-    };
-    socket.onmessage = function (msg) {
-        var msg_ele = document.getElementById('message');
-        msg_ele.style.display = 'block';
-        document.getElementById('notification').className += ' is-info';
-        document.getElementById('notification').innerHTML = msg.data;
-        setTimeout(function () {
-            msg_ele.style.display = 'none';
-            document.getElementById('notification').innerHTML = '';
-        }, 5000)
-        return;
-    };
-    socket.onclose = function () {
-        var curr = document.getElementsByClassName('status');
-        for (var i = 0; i < curr.length; i++) {
-            curr[i].classList.add('is-danger');
-            curr[i].innerHTML = "NOT CONNECTED";
-        }
-        return;
-    };
-} catch (e) {
-    console.log(e);
+var setIntervalSocket = function(){
+    try {
+        socket = new WebSocket('ws://localhost:6441');
+        socket.onopen = function () {
+            var curr = document.getElementsByClassName('status');
+            for (var i = 0; i < curr.length; i++) {
+                curr[i].classList.add('is-success');
+                curr[i].classList.remove('is-danger');
+                curr[i].innerHTML = "UP & RUNNING";
+            }
+            console.log('onopen');
+            // document.getElementById('run_server').style.display = 'none';
+            return;
+        };
+        socket.onmessage = function (msg) {
+            var msg_ele = document.getElementById('message');
+            msg_ele.style.display = 'block';
+            document.getElementById('notification').className += ' is-info';
+            document.getElementById('notification').innerHTML = msg.data;
+            setTimeout(function () {
+                msg_ele.style.display = 'none';
+                document.getElementById('notification').innerHTML = '';
+            }, 5000)
+            console.log(msg,'onmessage');
+            return;
+        };
+        socket.onclose = function () {
+            var curr = document.getElementsByClassName('status');
+            for (var i = 0; i < curr.length; i++) {
+                curr[i].classList.add('is-danger');
+                curr[i].innerHTML = "NOT CONNECTED";
+            }
+            console.log('onclose');
+            setIntervalSocket();
+            // return;
+        };
+    } catch (e) {
+        console.log(e);
+    }
 }
+setTimeout(setIntervalSocket(),20000);
 checkStatus = function() {
     if (socket.readyState == 1) {
         socket.send(JSON.stringify({
@@ -95,7 +103,7 @@ function testData() {
     receipt.store_name = "Test Biller\n";
 
     receipt.header = "";
-    receipt.header += "Test Biller\n";
+    receipt.header += "សាកល្បង Test Biller\n";
     receipt.header += "Biller adddress\n";
     receipt.header += "City Country\n";
     receipt.header += "Tel: 012345678";

@@ -27,7 +27,17 @@
             "profile": "default",
             "char_per_line": "45",
             "path": "",
-            "ip_address": "192.168.2.200",
+            "ip_address": "192.168.0.110",
+            "port": "9100"
+        },
+        {
+            "id": "6897352d8753c028777727adacd338c7",
+            "title": "POS80C",
+            "type": "network",
+            "profile": "default",
+            "char_per_line": "45",
+            "path": "",
+            "ip_address": "192.168.0.124",
             "port": "9100"
         }
     ],

@@ -65,7 +65,7 @@ try {
 
                 if(!isset($rdata->data->order) || empty($rdata->data->order)) {
                     $printers = get_printers();
-                    $order_printers = get_order_printers ();
+                    $order_printers = [$rdata->data->printer->id]??get_order_printers ();
                     foreach ($printers as $printer) {
                         if (in_array($printer->id, $order_printers)) {
                             echo '> Trying order printer '.$printer->title, "\n";
@@ -73,7 +73,7 @@ try {
                                 $escpos = new Escpos();
                                 $escpos->load($printer);
                                 $escpos->printImg($rdata->data->text);
-                                echo '> Printied', "\n";
+                                echo '> Printed', "\n";
                             } catch (Exception $e) {
                                 echo '> Error occurred, unable to print. ', $e->getMessage(), "\n";
                             }
