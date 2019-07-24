@@ -1,3 +1,17 @@
+var loadSocketServer = function(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '../server.php');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log( xhr.responseText );
+        }
+        else {
+            console.log( xhr.status);
+        }
+    };
+    xhr.send();
+}
+
 var socket = null;
 var setIntervalSocket = function(){
     try {
@@ -32,6 +46,7 @@ var setIntervalSocket = function(){
                 curr[i].innerHTML = "NOT CONNECTED";
             }
             console.log('onclose');
+            loadSocketServer();
             setIntervalSocket();
             // return;
         };
@@ -39,7 +54,8 @@ var setIntervalSocket = function(){
         console.log(e);
     }
 }
-setTimeout(setIntervalSocket(),20000);
+setTimeout(setIntervalSocket(),5000);
+
 checkStatus = function() {
     if (socket.readyState == 1) {
         socket.send(JSON.stringify({
