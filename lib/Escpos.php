@@ -46,9 +46,9 @@ class Escpos
 			$this->printer->setJustification(Printer::JUSTIFY_CENTER);
 			$file_path = realpath(dirname(__FILE__));
 			$folder_path = dirname($file_path);
-			$file = date('Y-m-d-H-i-s-').uniqid().'.png';
+			$file = date('Y-m-d-H-i-s-').uniqid().'.jpg';
 			$filename = $folder_path.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.$file;
-			$imgData = str_replace('data:image/png;base64,', '', $data);
+			$imgData = str_replace('data:image/jpeg;base64,', '', $data);
 			$imgData = str_replace(' ', '+', $imgData);
 			$imgData = base64_decode($imgData);
 			file_put_contents($filename, $imgData);
